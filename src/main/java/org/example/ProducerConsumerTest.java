@@ -33,6 +33,17 @@ public class ProducerConsumerTest {
         producerConsumerTest.run();
     }
 
+    public ProducerConsumerTest(){
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka-java-getting-started");
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        properties.put("bootstrap.servers", "localhost:9092");
+        properties.put("acks", "1");
+        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    }
+    Properties properties = new Properties();
     public String users[] = {"jsmith", "afinch", "sdube", "mali", "dconvoy"};
     public String userDetails[] = {"Jason Smith", "Aaron Finch", "Shivam Dube", "Moin Ali", "Devon Convoy"};
     String purchases[] = {"books", "iphone", "plant", "sofa", "watch"};
@@ -44,30 +55,21 @@ public class ProducerConsumerTest {
 
 
     public void run() {
-        Properties properties = new Properties();
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka-java-getting-started");
-        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        properties.put("bootstrap.servers", "localhost:9092");
-        properties.put("acks", "1");
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 
-        producePurchases(properties);
-        consumePurchases(properties);
+        producePurchases();
+        consumePurchases();
 //        produceUsers(properties);
 //        consumeUsers(properties);
-        producePageViews(properties);
-        consumePageViews(properties);
-        produceSalaries(properties);
-        consumeSalaries(properties);
-        produceSteps(properties);
-        consumeSteps(properties);
+        producePageViews();
+        consumePageViews();
+        produceSalaries();
+        consumeSalaries();
+        produceSteps();
+        consumeSteps();
     }
 
 
-    public void producePurchases(Properties properties) {
+    public void producePurchases() {
         String topicName = "purchases";
         KafkaProducer producer = new KafkaProducer(properties);
 
@@ -85,7 +87,7 @@ public class ProducerConsumerTest {
         }
     }
 
-    public void produceUsers(Properties properties) {
+    public void produceUsers() {
         String topicName = "userDetails";
         KafkaProducer producer = new KafkaProducer(properties);
 
@@ -103,7 +105,7 @@ public class ProducerConsumerTest {
         }
     }
 
-    public void producePageViews(Properties properties) {
+    public void producePageViews() {
         String topicName = "pageViews";
         KafkaProducer producer = new KafkaProducer(properties);
 
@@ -121,7 +123,7 @@ public class ProducerConsumerTest {
         }
     }
 
-    public void produceSalaries(Properties properties) {
+    public void produceSalaries() {
         String topicName = "salaries";
         KafkaProducer producer = new KafkaProducer(properties);
 
@@ -139,7 +141,7 @@ public class ProducerConsumerTest {
         }
     }
 
-    public void produceSteps(Properties properties) {
+    public void produceSteps() {
         String topicName = "steps";
         KafkaProducer producer = new KafkaProducer(properties);
 
@@ -157,7 +159,7 @@ public class ProducerConsumerTest {
         }
     }
 
-    public void consumePurchases(Properties properties) {
+    public void consumePurchases() {
         String topicName = "purchases";
         Consumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topicName));
@@ -179,7 +181,7 @@ public class ProducerConsumerTest {
         consumer.close();
     }
 
-    public void consumeUsers(Properties properties) {
+    public void consumeUsers() {
         String topicName = "userDetails";
         Consumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topicName));
@@ -201,7 +203,7 @@ public class ProducerConsumerTest {
         consumer.close();
     }
 
-    public void consumePageViews(Properties properties) {
+    public void consumePageViews() {
         String topicName = "pageViews";
         Consumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topicName));
@@ -223,7 +225,7 @@ public class ProducerConsumerTest {
         consumer.close();
     }
 
-    public void consumeSalaries(Properties properties) {
+    public void consumeSalaries() {
         String topicName = "salaries";
         Consumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topicName));
@@ -245,7 +247,7 @@ public class ProducerConsumerTest {
         consumer.close();
     }
 
-    public void consumeSteps(Properties properties) {
+    public void consumeSteps() {
         String topicName = "steps";
         Consumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topicName));
